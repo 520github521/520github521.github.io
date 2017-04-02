@@ -1,8 +1,8 @@
 ---
-category: Stuff
-path: '/stuff/:id'
+category: JavaScript
+path: '/JavaScript/:id'
 title: 'Delete a thing'
-type: 'DELETE'
+type: 'JavaScript'
 
 layout: nil
 ---

@@ -1,8 +1,8 @@
 ---
-category: Stuff
-path: '/stuff/:id'
+category: PHP
+path: '/PHP/:id'
 title: 'Update a thing'
-type: 'PUT'
+type: 'PHP'
 
 layout: nil
 ---
