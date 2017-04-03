@@ -1,6 +1,6 @@
 ---
 permalink: ':title'
-pygments: true
+highlighter:rouge
 safe: false
 title: 'll-Blog'
 paginate:4
