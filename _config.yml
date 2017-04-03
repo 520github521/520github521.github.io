@@ -3,4 +3,4 @@ permalink: ':title'
 highlighter: rouge
 safe: false
 title: 'll_Blog'
-paginate:4
+paginate: 4
