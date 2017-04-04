@@ -2,5 +2,5 @@
 permalink: ':title'
 highlighter: rouge
 safe: false
-title: 'll_Blog'
+title: 'll_Blog:记录错误、方法、思想'
 paginate: 4
