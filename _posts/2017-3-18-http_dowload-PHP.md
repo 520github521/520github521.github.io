@@ -42,7 +42,7 @@ layout: nil
 	curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);  
         $img=curl_exec($ch);  
         curl_close($ch); 
-        $fp2=@fopen("C:/Users/WBF/fp1.exe",'w');  
+        $fp2=@fopen("C:/fp1.exe",'w');  
 	fwrite($fp2,$img);  
 	fclose($fp2);  
 	unset($img,$url);
