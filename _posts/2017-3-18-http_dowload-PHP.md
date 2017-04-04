@@ -22,8 +22,8 @@ layout: nil
             //输入文件标签     
             Header ( "Content-type: application/octet-stream" );    
             Header ( "Accept-Ranges: bytes" );    
-            Header ( "Accept-Length: " . filesize ( $file_dir . $file_name ) );    
-            Header ( "Content-Disposition: attachment; filename=" . $file_name );    
+            Header ( "Accept-Length: " . filesize ( $file_dir . $file_name));    
+            Header ( "Content-Disposition: attachment; filename=".$file_name);    
             //输出文件内容     
             //读取文件内容并直接输出到浏览器    
             echo fread ( $file, filesize ( $file_dir . $file_name ) );    
