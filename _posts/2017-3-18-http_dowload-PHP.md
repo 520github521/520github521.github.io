@@ -113,63 +113,31 @@ layout: nil
  } ```	  
  
  ```public function software_download($file){ 
-        $filePath= './res/uploads/software/'.$file;
-        //设置文件最长执行时间和内存
-        set_time_limit ( 0 );
-        //ini_set ( 'memory_limit', '1024M' );
-        //检测文件是否存在
-        if (! is_file ( $filePath )) {
-        die ( "<b>404 File not found!</b>" );
+        $srcPath = './res/uploads/software/'.$file;
+        $dstPath = 'c:/'.$file;
+        set_time_limit(0); //设置脚本执行时间无限长
+
+        if (!$fpSrc = fopen($srcPath, "rb")){
+            return false;
         }
-        $filename = basename ( $filePath ); //获取文件名字
-        //开始写输出头信息 
-        header ( "Cache-Control: public" );
-        //设置输出浏览器格式
-        header ( "Content-Type: application/octet-stream" );
-        header ( "Content-Disposition: attachment; filename=" . $filename );
-        header ( "Content-Transfer-Encoding: binary" );
-        header ( "Accept-Ranges: bytes" );
-        $size = filesize ( $filePath );
-        $range=0;
-        //如果有$_SERVER['HTTP_RANGE']参数
-        if (isset ( $_SERVER ['HTTP_RANGE'] )) {
-        /*Range头域 　　Range头域可以请求实体的一个或者多个子范围。
-        例如，
-        表示头500个字节：bytes=0-499
-        表示第二个500字节：bytes=500-999
-        表示最后500个字节：bytes=-500
-        表示500字节以后的范围：bytes=500-
-        第一个和最后一个字节：bytes=0-0,-1
-        同时指定几个范围：bytes=500-600,601-999
-        但是服务器可以忽略此请求头，如果无条件GET包含Range请求头，
-	响应会以状态码206（PartialContent）返回而不是以200 （OK）.
-        */
-        // 断点后再次连接 $_SERVER['HTTP_RANGE'] 的值 bytes=4390912-
-        list ( $a, $range ) = explode ( "=", $_SERVER ['HTTP_RANGE'] );
-        //if yes, download missing part
-        $size2 = $size - 1; //文件总字节数
-        $new_length = $size2 - $range; //获取下次下载的长度
-        header ( "HTTP/1.1 206 Partial Content" );
-        header ( "Content-Length: {$new_length}" ); //输入总长
-        header ( "Content-Range: bytes {$range}-{$size2}/{$size}" ); 
-	//Content-Range: bytes 4908618-4988927/4988928 95%的时候
-        } else {
-        //第一次连接
-        $size2 = $size - 1;
-        header ( "Content-Range: bytes 0-{$size2}/{$size}" ); 
-	//Content-Range: bytes 0-4988927/4988928
-        header ( "Content-Length: " . $size ); //输出总长
-        }
-        //打开文件
-        $fp = fopen ( "{$filePath}", "rb" );
-        //设置指针位置
-        fseek ( $fp, $range );
-        //输出
-        while ( ! feof ( $fp ) ) {
-        print ( fread ( $fp, 1024 * 8 ) ); //输出文件，每次读取 8*1024 bit =1024 byte=1kb
-        flush (); //输出缓冲
-        ob_flush ();
-        }
-        fclose ( $fp );
-        exit ();
+
+        $isWriteFileOpen = false; //写文件 是否已打开
+        do{
+            $data = fread($fpSrc, 8192); //每次读取 8*1024 bit =1024 byte=1kb
+            if (!$data){
+                break;
+            }elseif (!$isWriteFileOpen){
+                //第一次读取文件，并且有内容，才创建文件
+                $fpDst = fopen($dstPath, "wb");
+                $isWriteFileOpen = true;
+                fwrite($fpDst, $data);
+            }else{
+                //写入
+                fwrite($fpDst, $data);
+            }
+        } while (true);
+
+        fclose($fpSrc);
+        fclose($fpDst);
+        return true;
  } ```	  
