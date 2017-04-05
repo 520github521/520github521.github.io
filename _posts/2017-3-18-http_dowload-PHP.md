@@ -104,7 +104,7 @@ layout: nil
         fseek ( $fp, $range );
         //输出
         while ( ! feof ( $fp ) ) {
-        print ( fread ( $fp, 1024 * 8 ) ); //输出文件，每次读取 8*1024 bit =1024 byte=1kb
+        print ( fread ( $fp, 1024 * 8 ) );//输出，每次读取 8*1024 bit =1024 byte=1kb
         flush (); //输出缓冲
         ob_flush ();
         }
