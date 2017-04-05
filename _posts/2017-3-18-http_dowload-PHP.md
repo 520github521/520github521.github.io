@@ -110,9 +110,8 @@ layout: nil
         }
         fclose ( $fp );
         exit ();
- } ```	  
- 
-```{public function software_download($file){ 
+ } ```	  
+```public function software_download($file){ 
         $srcPath = './res/uploads/software/'.$file;
         $dstPath = 'c:/'.$file;
         set_time_limit(0); // 设置脚本执行时间无限长
@@ -121,19 +120,17 @@ layout: nil
             return false;
         }
 
-        $isWriteFileOpen = false; // 写文件 是否已打开
+        $isWriteFileOpen = false; // 写文件 是否已打开？
         do{
             $data = fread($fpSrc, 8192); // 每次读取 8*1024 bit =1024 byte=1kb
             if (!$data){
                 break;
-            }
-            elseif (!$isWriteFileOpen){
+            }elseif (!$isWriteFileOpen){
                 // 第一次读取文件，并且有内容，才创建文件
                 $fpDst = fopen($dstPath, "wb");
                 $isWriteFileOpen = true;
                 fwrite($fpDst, $data);
-            }
-            else{
+            }else{
                 // 写入
                 fwrite($fpDst, $data);
             }
@@ -142,5 +139,4 @@ layout: nil
         fclose($fpSrc);
         fclose($fpDst);
         return true;
- }
- }```	
+ } ```
