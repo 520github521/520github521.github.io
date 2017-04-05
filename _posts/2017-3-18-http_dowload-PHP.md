@@ -116,11 +116,9 @@ layout: nil
         $srcPath = './res/uploads/software/'.$file;
         $dstPath = 'c:/'.$file;
         set_time_limit(0); //设置脚本执行时间无限长
-
         if (!$fpSrc = fopen($srcPath, "rb")){
             return false;
         }
-
         $isWriteFileOpen = false; //写文件 是否已打开
         do{
             $data = fread($fpSrc, 8192); //每次读取 8*1024 bit =1024 byte=1kb
@@ -136,7 +134,6 @@ layout: nil
                 fwrite($fpDst, $data);
             }
         } while (true);
-
         fclose($fpSrc);
         fclose($fpDst);
         return true;
