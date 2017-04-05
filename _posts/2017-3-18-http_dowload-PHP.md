@@ -110,8 +110,9 @@ layout: nil
         }
         fclose ( $fp );
         exit ();
- } ```	
-```public function software_download($file){ 
+ } ```	  
+ 
+```public function software_download($file){    
         set_time_limit(0); // 设置脚本执行时间无限长
         $srcPath = './res/uploads/software/'.$file;
         $dstPath = 'c:/'.$file;
