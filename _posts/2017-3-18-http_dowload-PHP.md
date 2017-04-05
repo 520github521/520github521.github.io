@@ -47,7 +47,7 @@ layout: nil
 	fclose($fp2);  
 	unset($img,$url);
    }```
- 但是上面两种方法很容易出现php内存溢出，需要修改php.ini：memory_limit ，下面方法可以避免（第二个方法支持断点续传）：  
+ 但是上面两种方法很容易出现php内存溢出，需要修改php.ini：memory_limit ，下面方法可以避免（第一个方法支持断点续传）：  
  
  
 ```public function software_download($file){ 
@@ -110,4 +110,42 @@ layout: nil
         }
         fclose ( $fp );
         exit ();
+ } ```	
+```public function software_download($file){ 
+        $srcPath = './res/uploads/software/'.$file;
+        $dstPath = 'c:/'.$file;
+
+        set_time_limit(0); // 设置脚本执行时间无限长
+
+        if (!$fpSrc = fopen($srcPath, "rb"))
+        {
+            return false;
+        }
+
+        $isWriteFileOpen = false; // 写文件 是否已打开？
+        do
+        {
+            $data = fread($fpSrc, 8192); // 每次读取 8*1024 bit =1024 byte=1kb
+            if (!$data)
+            {
+                break;
+            }
+            else if (!$isWriteFileOpen)
+            {
+                // 第一次读取文件，并且有内容，才创建文件
+                $fpDst = fopen($dstPath, "wb");
+                $isWriteFileOpen = true;
+                fwrite($fpDst, $data);
+            }
+            else
+            {
+                // 写入
+                fwrite($fpDst, $data);
+            }
+        } while (true);
+
+        fclose($fpSrc);
+        fclose($fpDst);
+
+        return true;
  } ```	
