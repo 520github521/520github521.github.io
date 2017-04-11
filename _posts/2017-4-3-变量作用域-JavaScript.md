@@ -77,9 +77,7 @@ javascript没有块级作用域
   function test(){
   var i;
   for(i = 0; i < 3; i++){
-
       //i=0,1,2,最后执行到i=3时退出循环
-
    }
    console.log(i);//3
 }
